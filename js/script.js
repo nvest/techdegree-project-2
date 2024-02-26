@@ -2,24 +2,13 @@
 Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
-
-
-
-/*
-For assistance:
-   Check out the "Project Resources" section of the Instructions tab: https://teamtreehouse.com/projects/data-pagination-and-filtering#instructions
-   Reach out in your Slack community: https://treehouse-fsjs-102.slack.com/app_redirect?channel=unit-2
-*/
 const itemsPerPage = 9;
 
 
-
 /*
-Create the `showPage` function
-This function will create and insert/append the elements needed to display a "page" of nine students
----
 Figure out which 9 (itemsPerPage) students the page should show
-Build out their list items, and insert them into the html
+Clear out any previous list items
+Build out new list items, and insert them into the html
 */
 function showPage(list, page) {
    const start = (page * itemsPerPage) - itemsPerPage;
@@ -47,11 +36,9 @@ function showPage(list, page) {
 
 
 /*
-Create the `addPagination` function
-This function will create and insert/append the elements needed for the pagination buttons
----
 Figure out how many pageination buttons to show
-Build out their list items, and insert them into the html
+Clear out any previous list items
+Build out new list items, and insert them into the html
 */
 function addPagination(list) {
    const numberOfButtons = Math.ceil(list.length / itemsPerPage);
@@ -65,6 +52,23 @@ function addPagination(list) {
       `;
       buttonsList.insertAdjacentHTML('beforeend', html);
    }
+   // Add active class to the first button
+   buttonsList.querySelector('button').classList.add('active');
+   // Move active class to button that is clicked
+   // Load the items for the correct page
+   buttonsList.addEventListener('click', (e) => {
+      const activeButton = buttonsList.querySelector('.active');
+      const clickedButton = e.target.closest('button');
+      
+      if (clickedButton && activeButton) {
+         activeButton.classList.remove('.active');
+      }
+
+      if (clickedButton) {
+         clickedButton.classList.add("active");
+         showPage(list, clickedButton.innerHTML);
+       }
+   });
 }
 
 
