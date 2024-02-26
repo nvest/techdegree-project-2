@@ -18,7 +18,7 @@ const itemsPerPage = 9;
 Create the `showPage` function
 This function will create and insert/append the elements needed to display a "page" of nine students
 ---
-Figure out which 9 students the page should show
+Figure out which 9 (itemsPerPage) students the page should show
 Build out their list items, and insert them into the html
 */
 function showPage(list, page) {
@@ -28,7 +28,7 @@ function showPage(list, page) {
    pageList.innerHTML = '';
    for ( let i = 0; i < list.length; i++ ) {
      if (i >= start && i < end) {
-      const student = `
+      const html = `
          <li class="student-item cf">
             <div class="student-details">
             <img class="avatar" src="${list[i].picture.large}" alt="Profile Picture">
@@ -40,7 +40,7 @@ function showPage(list, page) {
             </div>
          </li>
       `;
-      pageList.insertAdjacentHTML('beforeend', student);
+      pageList.insertAdjacentHTML('beforeend', html);
      }
    }
 }
@@ -49,11 +49,25 @@ function showPage(list, page) {
 /*
 Create the `addPagination` function
 This function will create and insert/append the elements needed for the pagination buttons
+---
+Figure out how many pageination buttons to show
+Build out their list items, and insert them into the html
 */
 function addPagination(list) {
-
+   const numberOfButtons = Math.ceil(list.length / itemsPerPage);
+   const buttonsList = document.querySelector("ul.link-list");
+   buttonsList.innerHTML = '';
+   for ( let i = 1; i <= numberOfButtons; i++ ) {
+      const html = `
+      <li>
+         <button type="button">${i}</button>
+      </li>
+      `;
+      buttonsList.insertAdjacentHTML('beforeend', html);
+   }
 }
 
 
 // Call functions
-showPage(data, 1)
+showPage(data, 1);
+addPagination(data);
