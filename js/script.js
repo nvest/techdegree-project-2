@@ -46,9 +46,9 @@ function addPagination(list) {
    buttonsList.innerHTML = '';
    for ( let i = 1; i <= numberOfButtons; i++ ) {
       const html = `
-      <li>
-         <button type="button">${i}</button>
-      </li>
+         <li>
+            <button type="button">${i}</button>
+         </li>
       `;
       buttonsList.insertAdjacentHTML('beforeend', html);
    }
@@ -59,19 +59,35 @@ function addPagination(list) {
    buttonsList.addEventListener('click', (e) => {
       const activeButton = buttonsList.querySelector('.active');
       const clickedButton = e.target.closest('button');
-      
       if (clickedButton && activeButton) {
-         activeButton.classList.remove('.active');
+         activeButton.classList.remove('active');
       }
-
       if (clickedButton) {
-         clickedButton.classList.add("active");
+         clickedButton.classList.add('active');
          showPage(list, clickedButton.innerHTML);
        }
    });
 }
 
 
+/*
+Add search bar into header
+*/
+function addSearchBar() {
+   const header = document.querySelector('header');;
+   const html = `
+      <label for="search" class="student-search">
+         <span>Search by name</span>
+         <input id="search" placeholder="Search by name...">
+         <button type="button"><img src="img/icn-search.svg" alt="Search icon"></button>
+      </label>
+   `;
+   header.insertAdjacentHTML('beforeend', html);
+}
+
+
+
 // Call functions
 showPage(data, 1);
 addPagination(data);
+addSearchBar();
