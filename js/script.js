@@ -3,6 +3,8 @@ Treehouse Techdegree:
 FSJS Project 2 - Data Pagination and Filtering
 */
 const itemsPerPage = 9;
+const buttonsList = document.querySelector("ul.link-list");
+const pageList = document.querySelector("ul.student-list");
 
 
 /*
@@ -13,7 +15,6 @@ Build out new list items, and insert them into the html
 function showPage(list, page) {
    const start = (page * itemsPerPage) - itemsPerPage;
    const end = page * itemsPerPage;
-   const pageList = document.querySelector("ul.student-list");
    pageList.innerHTML = '';
    for ( let i = 0; i < list.length; i++ ) {
      if (i >= start && i < end) {
@@ -42,7 +43,6 @@ Build out new list items, and insert them into the html
 */
 function addPagination(list) {
    const numberOfButtons = Math.ceil(list.length / itemsPerPage);
-   const buttonsList = document.querySelector("ul.link-list");
    buttonsList.innerHTML = '';
    for ( let i = 1; i <= numberOfButtons; i++ ) {
       const html = `
@@ -83,11 +83,45 @@ function addSearchBar() {
       </label>
    `;
    header.insertAdjacentHTML('beforeend', html);
+   // Loop through data array and check if the first and last name includes the search input
+   // Push data to a new array
+   // Call addPagination and showPage funcitons on the new array
+   // If there are no items in the array, show a no results message
+   // Execute function on input keyup and button click
+   const searchInput = document.querySelector("#search");
+   const button = document.querySelector("button");
+   searchInput.type = "text";
+   function searchFilters() {
+      const filteredStudents = [];
+      const inputValue = searchInput.value.toLowerCase();
+      for (i = 0; i < data.length; i++) {
+         firstName = data[i].name.first.toLowerCase();
+         lastName = data[i].name.last.toLowerCase();
+         currentStudent = `${firstName} ${lastName}`;
+         if (currentStudent.includes(inputValue)) {
+            filteredStudents.push(data[i]);
+         }
+      }
+      if (filteredStudents.length > 0 ) {
+         addPagination(filteredStudents);
+         showPage(filteredStudents, 1);
+      } else {
+         pageList.innerHTML = `<h3 class="no-results">No results were found.</h3>`;
+         buttonsList.innerHTML = '';
+       }
+   }
+   searchInput.addEventListener('keyup', (e) => {
+      searchFilters();
+   });
+   button.addEventListener('click', (e) => {
+      searchFilters();
+   });
 }
-
 
 
 // Call functions
 showPage(data, 1);
 addPagination(data);
 addSearchBar();
+
+
